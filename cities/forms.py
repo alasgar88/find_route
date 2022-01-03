@@ -1,0 +1,18 @@
+from django import forms
+from django.forms import fields
+
+from cities.models import City
+
+
+class HtmlForm(forms.Form):
+    name = forms.CharField(label="City")
+
+
+class CityForm(forms.ModelForm):
+
+    name = forms.CharField(label="City", widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter the city name'}))
+
+    class Meta:
+        model = City
+        fields = ('name',)
