@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Train Detail{% endblock%}
+{% block content %}
+<br>
+<div class="row">
+<div class="col-md-10 mx-auto">
+         <h2>Train detail</h2>
+        <br>
+        <table class="table table-striped">
+        <tr>
+            <th>Train Number </th>
+            <th>From</th>
+            <th>To</th>
+            <th>Time</th>
+        </tr>
+
+        <tr>    
+            <td>
+                {{object.name}}
+            </td>
+            <td>
+                {{object.from_city}}
+            </td>
+            <td>
+                {{object.to_city}}
+            </td>
+            <td>
+                {{object.travel_time}}
+            </td>
+        </table>
+</div>
+<div class="col-md-10 mx-auto">
+    <div class="col-md-4">
+        <a href="{% url 'trains:train_list' %}"><button type="button" class="btn btn-light">Back to Train List</button></a>
+    </div>
+</div>
+{% endblock%}

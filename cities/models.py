@@ -4,7 +4,8 @@ from django.urls import reverse
 
 
 class City(models.Model):
-    name = models.CharField(max_length=100, unique=True, verbose_name="City")
+    name = models.CharField(max_length=100, unique=True,
+                            verbose_name="City name")
 
     def __str__(self):
         return self.name

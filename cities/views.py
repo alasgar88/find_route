@@ -1,8 +1,6 @@
 from django.core import paginator
 from .models import City
-from cities.forms import HtmlForm, CityForm
-from typing_extensions import ParamSpecArgs
-from django.db.models.query import QuerySet
+from .forms import CityForm
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
@@ -42,6 +40,7 @@ __all__ = (
 
 class CityListView(ListView):
     model = City
+    template_name = 'cities/city_list.html'
     paginate_by = 3
 
     def get_context_data(self, **kwargs):
@@ -53,20 +52,23 @@ class CityListView(ListView):
 
 class CityDetailView(DetailView):
 
-    queryset = City.objects.all()
+    model = City
     template_name = 'cities/detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        return context
 
 
 class CityCreateView(SuccessMessageMixin, CreateView):
     model = City
-    form_class = CityForm
     template_name = 'cities/create.html'
+    form_class = CityForm
     success_url = reverse_lazy('cities:city_list')
-    success_message = "City was created succesfully"
+    obj = ''
+
+    def form_valid(self, form):
+        self.obj = form.instance.name
+        return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return f"City { self.obj} was created succesfully"
 
 
 class CityUpdateView(SuccessMessageMixin, UpdateView):
@@ -74,16 +76,19 @@ class CityUpdateView(SuccessMessageMixin, UpdateView):
     form_class = CityForm
     template_name = 'cities/update.html'
     success_url = reverse_lazy('cities:city_list')
-    success_message = "City was updated succesfully"
+
+    def get_success_message(self, cleaned_data):
+        obj = super().get_object()
+        return f"City { obj.name }was updated succesfully"
 
 
 class CityDeleteView(DeleteView):
     model = City
-    form_class = CityForm
     template_name = 'cities/delete.html'
     success_url = reverse_lazy('cities:city_list')
 
     def post(self, request, *args, **kwargs):
+        obj = super().get_object()
         messages.add_message(request, messages.SUCCESS,
-                             'City was deleted succesfully')
+                             f"City {obj.name} was deleted succesfully")
         return super().post(request, *args, **kwargs)

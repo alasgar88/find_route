@@ -1,6 +1,9 @@
 {% url 'cities:city_list' as city_list %}
 {% url 'cities:city_detail' as city_detail %}
+{% url 'cities:create' as city_create %}
+{% url 'trains:create' as train_create %}
 {% url 'home' as home %}
+{% url 'trains:train_list' as train_list %}
 {% load static %} 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,13 +31,16 @@
             <a class="nav-link {% if request.path == city_list %} active {% endif %}" aria-current="page" href="{% url 'cities:city_list' %}">List of Cities</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link {% if request.path == train_list %} active {% endif %}" href="{% url 'trains:train_list' %}">Trains</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Add
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item {% if request.path == city_create %} active {% endif %}" href="{% url 'cities:create' %}">New City</a></li>
+              <li><a class="dropdown-item {% if request.path == train_create %} active {% endif %}" href="{% url 'trains:create' %}">New Train</a></li>
+            </ul>
           </li>
         </ul>
       </div>

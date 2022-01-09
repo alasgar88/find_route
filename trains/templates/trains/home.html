@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}List of cities{% endblock%}
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <br>
+        <h2>List of Trains</h2>
+        <br>
+        <table class="table table-striped">
+        <tr>
+            <th>Train Number </th>
+            <th>From</th>
+            <th>To</th>
+            <th>Time</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        {% for object in page_obj %}
+        <tr>    
+            <td>
+                <a href="{% url 'trains:train_detail' pk=object.id %}" style="text-decoration: none;"><p>{{object.name}}</p></a>
+            </td>
+            <td>
+                {{object.from_city}}
+            </td>
+            <td>
+                {{object.to_city}}
+            </td>
+            <td>
+                {{object.travel_time}}
+            </td>
+            <td>
+                <a href="{% url 'trains:train_update' pk=object.id %}" style="text-decoration: none;"><button type="button" class="btn btn-primary">Update</button></a>
+            </td>
+            <td>
+                <a href="{% url 'trains:train_delete' pk=object.id %}" style="text-decoration: none;"><button type="button" class="btn btn-danger">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor%}
+        </table>
+        <div class="pagination">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo; first</a>
+                        </li>
+                        <li class="page-item ">
+                             <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                    </li>
+                     <li class="page-item" aria-current="page">
+                            <form action="">
+                                <input type="text" name="page" class="form-control" placeholder="Go to page" width="30px">
+                            </form>
+                        </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item" aria-current="page">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                        </li>
+                        <li class="page-item" aria-current="page">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        </li>    
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock%}
