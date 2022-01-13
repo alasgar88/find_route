@@ -26,6 +26,7 @@ class Train(models.Model):
         ordering = ['name']
 
     def clean(self):
+        super().clean()
         if self.from_city == self.to_city:
             raise ValidationError("Change 'To' value")
         qs = Train.objects.filter(

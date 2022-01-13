@@ -15,18 +15,18 @@ from django.contrib import messages
 
 
 __all__ = (
-    'home', 'TrainListView', 'TrainDetailView',
+    'TrainListView', 'TrainDetailView',
     'TrainCreateView', 'TrainUpdateView', 'TrainDeleteView',
 )
 
 
-def home(request, pk=None):
-    qs = Train.objects.all()
-    lst = Paginator(qs, 3)
-    page_number = request.GET.get('page')
-    page_obj = lst.get_page(page_number)
-    context = {'page_obj': page_obj}
-    return render(request, 'trains/home.html', context)
+# def home(request, pk=None):
+#     qs = Train.objects.all()
+#     lst = Paginator(qs, 3)
+#     page_number = request.GET.get('page')
+#     page_obj = lst.get_page(page_number)
+#     context = {'page_obj': page_obj}
+#     return render(request, 'trains/home.html', context)
 
 
 class TrainListView(ListView):
